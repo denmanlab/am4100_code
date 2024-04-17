@@ -1,0 +1,70 @@
+function lData=defaultData()
+    lData.PIN=1001;
+    lData.mode=getValueNames('Mode',1);
+    lData.Trigger=getValueNames('Trigger',1);
+    lData.Auto=getValueNames('Auto',1);
+    lData.Monitor=getValueNames('Monitor',4);
+    lData.Sync1=getValueNames('Sync1',1);
+    lData.Sync2=getValueNames('Sync2',2);
+    lData.PeriodOrFreq=getValueNames('PeriodOrFreq',1);
+    lData.TrainType=getValueNames('TrainType',1);
+    lData.TrainDelay=1000;
+    lData.TrainDur=42000;
+    lData.TrainPeriod=44000;
+    lData.TrainQuantity=1;
+    lData.TrainLevel=-2000000;
+    lData.OffsetOrHold=getValueNames('OffsetOrHold',2);
+    
+    lData.EventType(1)={getValueNames('EventType',floor(rand*4)+1)};
+    lData.EventQuantity(1)=2;
+    lData.EventDelay(1)=2000;
+    lData.EventDur1(1)=800;
+    lData.EventDur2(1)=400;
+    lData.EventDur3(1)=1800;
+    lData.EventPeriod(1)=4000;
+    lData.EventAmp1(1)=8000000;
+    lData.EventAmp2(1)=-8000000;
+    
+        lData.EventType(2)={getValueNames('EventType',floor(rand*4)+1)};
+    lData.EventQuantity(2)=1;
+    lData.EventDelay(2)=1000;
+    lData.EventDur1(2)=1000;
+    lData.EventDur2(2)=500;
+    lData.EventDur3(2)=1500;
+    lData.EventPeriod(2)=4000;
+    lData.EventAmp1(2)=5000000;
+    lData.EventAmp2(2)=-5000000;
+    
+        lData.EventType(3)={getValueNames('EventType',floor(rand*4)+1)};
+    lData.EventQuantity(3)=3;
+    lData.EventDelay(3)=1000;
+    lData.EventDur1(3)=500;
+    lData.EventDur2(3)=0;
+    lData.EventDur3(3)=500;
+    lData.EventPeriod(3)=2000;
+    lData.EventAmp1(3)=8000000;
+    lData.EventAmp2(3)=-2000000;
+    
+        lData.EventType(4)={getValueNames('EventType',floor(rand*4)+1)};
+    lData.EventQuantity(4)=2;
+    lData.EventDelay(4)=0;
+    lData.EventDur1(4)=2000;
+    lData.EventDur2(4)=500;
+    lData.EventDur3(4)=1000;
+    lData.EventPeriod(4)=5000;
+    lData.EventAmp1(4)=5000000;
+    lData.EventAmp2(4)=-8000000;
+    for libID=5:20
+        lData.EventType(libID)={getValueNames('EventType',floor(rand*4)+1)};
+        lData.EventQuantity(libID)=2;
+        lData.EventDelay(libID)=2000;
+        lData.EventDur1(libID)=800;
+        lData.EventDur2(libID)=400;
+        lData.EventDur3(libID)=1800;
+        lData.EventPeriod(libID)=4000;
+        lData.EventAmp1(libID)=10000000;
+        lData.EventAmp2(libID)=-10000000;
+    end
+    lData.EventList=[3 2 1 4];
+    lData.UniformNumber=1;
+end
