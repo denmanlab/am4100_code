@@ -1,0 +1,2 @@
+Mode,Monitor,TrainType,TrainDelay,TrainDur,TrainPeriod,TrainQuantity,TrainLevel,TrainFrequency,OffsetOrHold,EventType,EventDelay,EventDur1,EventDur2,EventDur3,EventPeriod,EventQuantity,EventFrequency,EventAmp1,EventAmp2,IsoOutput,PeriodorFreq,UniformNumber,LibID,comment
+intCurrent,scale_20VperV,uniform,0,2000000,2000000,1,0,0,hold,biphasic,0,200,0,10,10000,5,500000,-25,-100000,on,period,1,1, wire states

@@ -62,7 +62,7 @@ global lData;
 global cntrls;
 global OKtoGraph;
 global a
-%a = arduino('COM5', 'Uno')
+a = arduino('COM4', 'Mega2560')
 cntrls=controlsGUI;
 lData=defaultData;
 OKtoGraph=1;
