@@ -20,9 +20,6 @@ also see poorly formated copied and pasted version below class.
 
 potentially helpful todo: learn the string that provides an internal trigger
 '''
-import serial
-import time
-
 class AM4100:
     def __init__(self, com_port='COM3', baud_rate=115200):
         self.com_port = com_port
@@ -47,47 +44,15 @@ class AM4100:
             self.serial_port.reset_input_buffer()  # Clear input buffer
             self.serial_port.reset_output_buffer()  # Clear output buffer
 
-    # def send_command_to_stimulator(self, command):
-    #     if self.serial_port is not None:
-    #         try:
-    #             self.serial_port.write(command.encode() + b'\r\n')
-    #             print(f"Send= {command}")
-    #             #time.sleep(0.1)  # Short delay to allow command processing
-    #             response = self.serial_port.readline().decode().strip()
-    #             response = response.replace('\r', '').replace('\n', '~')  # Process response
-    #             print(f"Reply= {response}")
-    #             return response
-    #         except serial.SerialException as e:
-    #             print(f"Error sending command: {e}")
-    #             return "error no data"
-    #     else:
-    #         print("Serial port is not open.")
-    #         return "error no data"
-    def send_command_to_stimulator(self, command, terminator=b'\n'):
-        if self.serial_port is not None:
-            try:
-                self.serial_port.write(command.encode() + b'\r\n')  # Send the command with CR+LF
-                print(f"Send= {command}")
-                response = self.serial_port.read_until().decode().strip()  # Read until the terminator
-                
-                response = response.replace('\r', '').replace('\n', '~')  # Process response to replace CR and LF with tilde
-                print(f"Reply= {response}")
-                return response
-            except serial.SerialException as e:
-                print(f"Error sending command: {e}")
-                return "error no data"
-        else:
-            print("Serial port is not open.")
-            return "error no data"
-    
     def send_command_and_read_response(self, command):
+        self.flush_serial_port()
         if self.serial_port is not None:
             try:
                 # Send command
                 full_command = command.encode() + b'\r\n'
                 self.serial_port.write(full_command)
-                print(f"Send= {command}")
-
+                #print(f"Send= {command}")
+                
                 # Read response until the expected terminator
                 response = self.serial_port.read_until(b'*\r\n')
                 decoded_response = response.decode().strip()
@@ -95,6 +60,8 @@ class AM4100:
                 # The value after the last newline and before the '*'
                 relevant_part = decoded_response.split('\r\n')[-2]  # Get the second last item after split which should be `-25`
                 return relevant_part
+                #return decoded_response
+
             except serial.SerialException as e:
                 print(f"Error sending command or reading response: {e}")
                 return "error no data"
@@ -111,10 +78,13 @@ class AM4100:
         response = self.serial_port.readline().decode().strip()
         print(f'reply= {response}')
     def get_params(self):
+        self.stop()
+        self.flush_serial_port()
         amp = self.send_command_and_read_response('g m 10 7')
         pulse_width = self.send_command_and_read_response('g m 10 6')
         pulse_quantity = self.send_command_and_read_response('g m 10 4')
         train_number = self.send_command_and_read_response('g m 7 4')
+
         train_duration = self.send_command_and_read_response('g m 7 2') # everything in microseconds
         train_period = self.send_command_and_read_response('g m 7 3')
         params = {'amplitude': amp, 
@@ -129,10 +99,11 @@ class AM4100:
         response = self.serial_port.read_until()
     def run(self): # this should set it so its waiting for trigger
         command = '1001 s a run'
-        response = self.send_command_to_stimulator(command)
+        response = self.send_command_and_read_response(command)
+        return response
     def stop(self): # put it in a ready state but not able to receive trigger
         command = '1001 s a stop'
-        response = self.send_command_to_stimulator(command)
+        response = self.send_command_and_read_response(command)
         return response
 
     def close_connection(self):
